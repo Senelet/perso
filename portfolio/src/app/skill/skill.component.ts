@@ -1,11 +1,35 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-skill',
-  imports: [],
-  templateUrl: './skill.component.html',
-  styleUrl: './skill.component.css'
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="skill-badge">
+      {{ name }}
+    </div>
+  `,
+  styles: [`
+    .skill-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: var(--section-background);
+      color: var(--text-primary);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+
+    .skill-badge:hover {
+      transform: translateY(-2px);
+      background-color: var(--card-background);
+      box-shadow: 0 4px 8px var(--shadow-color);
+    }
+  `]
 })
 export class SkillComponent {
-
+  @Input() name: string = '';
 }

@@ -8,12 +8,23 @@ interface Skill {
 }
 
 @Component({
-  selector: 'app-card',
+  selector: 'app-project-card',
   standalone: true,
   imports: [CommonModule, SkillComponent],
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css'],
+  templateUrl: './project-card.component.html',
+  styleUrls: ['./project-card.component.css'],
   animations: [
+    trigger('cardAnimation', [
+      state('initial', style({
+        opacity: 0,
+        transform: 'translateY(20px)'
+      })),
+      state('final', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('initial => final', animate('0.5s ease-out')),
+    ]),
     trigger('expandAnimation', [
       state('expanded', style({
         opacity: 1,
@@ -25,23 +36,41 @@ interface Skill {
       })),
       transition('expanded => collapsed', animate('0.35s cubic-bezier(.4,2,.6,1)')),
       transition('collapsed => expanded', animate('0.35s cubic-bezier(.4,2,.6,1)')),
+    ]),
+    trigger('imageHover', [
+      state('normal', style({
+        transform: 'scale(1)'
+      })),
+      state('hovered', style({
+        transform: 'scale(1.05)'
+      })),
+      transition('normal <=> hovered', animate('0.3s ease-in-out'))
     ])
   ]
 })
-export class CardComponent {
+export class ProjectCardComponent {
   @Input() title: string = '';
-  @Input() company: string = '';
-  @Input() period: string = '';
   @Input() description: string = '';
   @Input() imageUrl: string = '';
+  @Input() githubUrl: string = '';
   @Input() skills: Skill[] = [];
+  @Input() index: number = 0;
   @Input() expanded: boolean = false;
   @Input() expandAnimState: 'expanded' | 'collapsed' = 'expanded';
   @Output() closeCard = new EventEmitter<void>();
   @Output() expand = new EventEmitter<void>();
 
-  onExpand() {
-    if (!this.expanded) this.expand.emit();
+  cardState = 'initial';
+  imageState = 'normal';
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.cardState = 'final';
+    }, this.index * 100);
+  }
+
+  onImageHover(state: string) {
+    this.imageState = state;
   }
 
   onCloseCard(event?: MouseEvent) {
@@ -51,4 +80,8 @@ export class CardComponent {
     }, 350);
     if (event) event.stopPropagation();
   }
-}
+
+  onExpand() {
+    if (!this.expanded) this.expand.emit();
+  }
+} 

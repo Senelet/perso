@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="content-box">
+    <h1 [@fadeIn]="'final'">My Skills</h1>
+    <div class="skills-container">
+      <div class="skill-category" *ngFor="let category of categories; let i = index" [@scaleIn]="skillStates[i]">
+        <h2>{{ category }}</h2>
+        <div class="skills-grid">
+          <app-skill *ngFor="let skill of getSkillsByCategory(category)"
+                    [name]="skill.name">
+          </app-skill>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
