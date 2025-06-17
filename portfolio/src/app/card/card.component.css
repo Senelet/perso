@@ -12,19 +12,32 @@
 
 .card.expanded {
   cursor: default;
+  max-width: 800px;
+  width: 90%;
+  margin: auto;
 }
 
 .card-image {
   width: 100%;
   height: 200px;
   overflow: hidden;
+  margin-top: 1rem;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
+}
+
+.card.expanded .card-image {
+  height: 300px;
+}
+
+.card.expanded .card-image img {
+  object-fit: contain;
+  transform: none;
 }
 
 .section-box.card:hover .card-image img {
